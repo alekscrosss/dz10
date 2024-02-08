@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'myquotes.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME', 'your_postgres_db_name'),
-        'USER': os.environ.get('DATABASE_USER', 'your_postgres_user'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'your_postgres_password'),
+        'NAME': os.environ.get('DATABASE_NAME', 'db_alex'),
+        'USER': os.environ.get('DATABASE_USER', 'alex'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', '123456789'),
         'HOST': os.environ.get('DATABASE_HOST', 'db'),  # Используйте имя сервиса db из docker-compose.yml
         'PORT': '5432',
     }
