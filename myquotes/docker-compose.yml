@@ -1,0 +1,31 @@
+version: '3.11'
+
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: db_alex
+      POSTGRES_USER: alex
+      POSTGRES_PASSWORD: 123456789
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=db_alex
+      - DATABASE_USER=alex
+      - DATABASE_PASSWORD=123456789
+
+volumes:
+  postgres_data:
