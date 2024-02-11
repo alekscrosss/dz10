@@ -1,0 +1,12 @@
+<!-- quotes/templates/quotes/add_author.html -->
+
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>Add a New Author</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}

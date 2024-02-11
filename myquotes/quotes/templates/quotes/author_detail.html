@@ -1,0 +1,17 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}{{ author.fullname }}{% endblock %}
+
+{% block content %}
+  <h1>{{ author.fullname }}</h1>
+  <p>Born: {{ author.born_date }} in {{ author.born_location }}</p>
+  <p>{{ author.description }}</p>
+  <h2>Quotes:</h2>
+  <ul>
+      {% for quote in author.quotes.all %}
+      <li>{{ quote.quote }}</li>
+      {% empty %}
+      <li>No quotes found.</li>
+      {% endfor %}
+  </ul>
+{% endblock %}

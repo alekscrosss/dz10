@@ -1,0 +1,37 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>All Quotes</h1>
+  <ul>
+      {% for quote in quotes %}
+      <li>
+          "{{ quote.quote }}" - <a href="{% url 'quotes:author_detail' quote.author.id %}">{{ quote.author.fullname }}</a>
+          <p>Tags:
+            {% for tag in quote.tags.all %}
+                <a href="{% url 'quotes:tag_detail' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+      </li>
+      {% empty %}
+        <p>No quotes found.</p>
+      {% endfor %}
+  </ul>
+
+  <div class="pagination">
+    <span class="step-links">
+        {% if quotes.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ quotes.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ quotes.number }} of {{ quotes.paginator.num_pages }}.
+        </span>
+
+        {% if quotes.has_next %}
+            <a href="?page={{ quotes.next_page_number }}">next</a>
+            <a href="?page={{ quotes.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+{% endblock %}

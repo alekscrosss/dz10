@@ -1,0 +1,41 @@
+<!-- templates/base_generic.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Quotes Site{% endblock %}</title>
+</head>
+<body>
+  <header>
+    <h1>Welcome to the Quotes Site</h1>
+  </header>
+
+  <!-- Navigation bar -->
+  <nav>
+    <ul>
+      <!-- Other navigation links -->
+      <li><a href="{% url 'quotes:all_quotes' %}">Home</a></li>
+      <li><a href="{% url 'quotes:add_author' %}">Add Author</a></li>
+      <li><a href="{% url 'quotes:add_quote' %}">Add Quote</a></li>
+
+      <!-- Authentication links -->
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'account_logout' %}">Logout</a></li>
+      {% else %}
+        <li><a href="{% url 'account_login' %}">Login</a></li>
+        <li><a href="{% url 'account_signup' %}">Register</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <main>
+    {% block content %}
+    <!-- Page specific content will go here -->
+    {% endblock %}
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Quotes Site</p>
+  </footer>
+</body>
+</html>
