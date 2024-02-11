@@ -1,41 +1,50 @@
-<!-- templates/base_generic.html -->
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Quotes Site{% endblock %}</title>
+    <title>{% block title %}Quotes Site{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-  <header>
-    <h1>Welcome to the Quotes Site</h1>
-  </header>
+    <header class="bg-light py-3">
+        <div class="container">
+            <h1>Welcome to the Quotes Site</h1>
+        </div>
+    </header>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <ul class="navbar-nav mr-auto">
+                <!-- Other navigation links -->
+                <li class="nav-item"><a class="nav-link" href="{% url 'quotes:all_quotes' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'quotes:add_author' %}">Add Author</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'quotes:add_quote' %}">Add Quote</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account_change_password' %}">Change Password</a></li>
+                    <li class="nav-item">
+                        <form action="{% url 'account_logout' %}" method="post" class="form-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <main class="container py-4">
+        {% block content %}
+        <!-- Page specific content will go here -->
+        {% endblock %}
+    </main>
+    <footer class="bg-light py-3">
+        <div class="container">
+            <p>&copy; 2024 Quotes Site</p>
+        </div>
+    </footer>
 
-  <!-- Navigation bar -->
-  <nav>
-    <ul>
-      <!-- Other navigation links -->
-      <li><a href="{% url 'quotes:all_quotes' %}">Home</a></li>
-      <li><a href="{% url 'quotes:add_author' %}">Add Author</a></li>
-      <li><a href="{% url 'quotes:add_quote' %}">Add Quote</a></li>
-
-      <!-- Authentication links -->
-      {% if user.is_authenticated %}
-        <li><a href="{% url 'account_logout' %}">Logout</a></li>
-      {% else %}
-        <li><a href="{% url 'account_login' %}">Login</a></li>
-        <li><a href="{% url 'account_signup' %}">Register</a></li>
-      {% endif %}
-    </ul>
-  </nav>
-
-  <main>
-    {% block content %}
-    <!-- Page specific content will go here -->
-    {% endblock %}
-  </main>
-
-  <footer>
-    <p>&copy; 2024 Quotes Site</p>
-  </footer>
-</body>
-</html>
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" integrity="sha

@@ -1,0 +1,12 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Quotes Tagged "{{ tag.name }}"</h1>
+  <ul>
+      {% for quote in quotes %}
+      <li>"{{ quote.quote }}" - {{ quote.author.fullname }}</li>
+      {% empty %}
+        <p>No quotes found for this tag.</p>
+      {% endfor %}
+  </ul>
+{% endblock %}

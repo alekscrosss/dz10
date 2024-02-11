@@ -11,6 +11,8 @@ from django.db.models import Count
     author = Author.objects.get(pk=pk)
     return render(request, 'quotes/author_detail.html', {'author': author})"""
 
+def top_tags(request):
+    return {'top_tags': Tag.objects.annotate(num_quotes=Count('quote')).order_by('-num_quotes')[:10]}
 
 def author_detail(request, pk):
     author = get_object_or_404(Author, pk=pk)
@@ -19,6 +21,8 @@ def author_detail(request, pk):
 
 def tag_detail(request, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
+    quotes = tag.quote_set.all()
+    return render(request, 'quotes/tag_detail.html', {'tag': tag, 'quotes': quotes})
 
 def user_registration(request):
     if request.method == 'POST':

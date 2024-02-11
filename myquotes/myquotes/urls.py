@@ -7,6 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('quotes/', include(('quotes.urls', 'quotes'), namespace='quotes')),
     path('', include(('quotes.urls', 'root'), namespace='root')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
-
 ]

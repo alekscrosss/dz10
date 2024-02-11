@@ -1,37 +1,60 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-  <h1>All Quotes</h1>
-  <ul>
+  <h1 class="mb-4">All Quotes</h1>
+  <div class="top-tags">
+    <h2>Top Ten Tags</h2>
+    <ul>
+        {% for tag in top_tags %}
+            <li><a href="{% url 'quotes:tag_detail' tag.name %}">{{ tag.name }}</a> ({{ tag.num_quotes }})</li>
+        {% endfor %}
+    </ul>
+  </div>
+  <div class="row">
       {% for quote in quotes %}
-      <li>
-          "{{ quote.quote }}" - <a href="{% url 'quotes:author_detail' quote.author.id %}">{{ quote.author.fullname }}</a>
-          <p>Tags:
-            {% for tag in quote.tags.all %}
-                <a href="{% url 'quotes:tag_detail' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
-            {% endfor %}
-          </p>
-      </li>
+      <div class="col-md-4 mb-4">
+          <div class="card">
+              <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>"{{ quote.quote }}"</p>
+                    <footer class="blockquote-footer"><a href="{% url 'quotes:author_detail' quote.author.id %}">{{ quote.author.fullname }}</a></footer>
+                  </blockquote>
+                  <p class="card-text mt-2">Tags:
+                    {% for tag in quote.tags.all %}
+                        <a href="{% url 'quotes:tag_detail' tag.name %}" class="badge badge-primary">{{ tag.name }}</a>
+                    {% endfor %}
+                  </p>
+              </div>
+          </div>
+      </div>
       {% empty %}
         <p>No quotes found.</p>
       {% endfor %}
-  </ul>
+  </div>
 
-  <div class="pagination">
-    <span class="step-links">
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
         {% if quotes.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ quotes.previous_page_number }}">previous</a>
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?page={{ quotes.previous_page_number }}">Previous</a></li>
         {% endif %}
 
-        <span class="current">
-            Page {{ quotes.number }} of {{ quotes.paginator.num_pages }}.
-        </span>
+        <li class="page-item disabled">
+            <span class="page-link">Page {{ quotes.number }} of {{ quotes.paginator.num_pages }}.</span>
+        </li>
 
         {% if quotes.has_next %}
-            <a href="?page={{ quotes.next_page_number }}">next</a>
-            <a href="?page={{ quotes.paginator.num_pages }}">last &raquo;</a>
+            <li class="page-item"><a class="page-link" href="?page={{ quotes.next_page_number }}">Next</a></li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ quotes.paginator.num_pages }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
         {% endif %}
-    </span>
-  </div>
+    </ul>
+  </nav>
 {% endblock %}
